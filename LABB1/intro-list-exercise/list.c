@@ -41,10 +41,10 @@ void destroy_list(List *victim) {
 // For long lists, this will be very slow. Exercise: Why?
 List *copy_list(List *original) {
     assert(original != NULL);
-    List *copy = create_list();
-    ListLink *current = original->first;
+    List *copy = create_list();     //skapa tom lista
+    ListLink *current = original->first;    
     while (current != NULL) {
-        append_to_list(copy, current->data);
+        append_to_list(copy, current->data); //gå igenom varje nod i lista och lägg till i copy lista i slutet
         current = current->next;
     }
     return copy;
@@ -76,10 +76,11 @@ int find_position_in_list(List *this_list, int wanted) {
 
 void prepend_to_list(List *this_list, int data) {
     assert(this_list != NULL);
+
     ListLink *new_link = create_link();
     new_link->data = data;
     new_link->next = this_list->first;
-    this_list->first = new_link;
+    this_list->first = new_link; 
 }
 
 void append_to_list(List *this_list, int data) {
@@ -87,17 +88,17 @@ void append_to_list(List *this_list, int data) {
     ListLink *new_link = create_link();
     new_link->data = data;
     new_link->next = NULL;
-    if (this_list->first == NULL) {
-        this_list->first = new_link;
+    if (this_list->first == NULL) { //om header pekar på null -> läggs till första elementet
+        this_list->first = new_link; //sätt direkt till head
     }
     else {
-        ListLink *current = this_list->first;
+        ListLink *current = this_list->first; 
         ListLink *trailing_link = NULL;
         while (current != NULL) {
-            trailing_link = current;
-            current = current->next;
+            trailing_link = current; //save current node address
+            current = current->next; //gå till nästa nod
         }
-        trailing_link->next = new_link;
+        trailing_link->next = new_link; //när nästa address current == NULL spara den tidigare pekaren/addressen
     }
 }
 
