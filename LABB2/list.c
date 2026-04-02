@@ -6,16 +6,6 @@ listed below. (Yes, it has to be a double-linked list, and it has to be with a s
 information check CLRS3 page 230 or CLRS4 page 250*/
 
 
-typedef struct Node{
-    int key;
-    struct Node* prev;
-    struct Node* next;
-}Node;
-
-typedef struct List{
-    Node* sentinel;
-}List;
-
 void initList(List* L){        //initialize list
 
     L->sentinel = (Node*)malloc(sizeof(Node)); //point to allocate memory in size of node
@@ -29,7 +19,7 @@ bool isEmpty(List* L){
 } //if empty the node points at itself
 
 void insert(List* L, Node* N){
-    if(N==NULL) return; //if N is NUll return and do nothing
+    if(N==NULL){ return;} //if N is NUll return and do nothing
 
     Node* last = L->sentinel->prev; //sentinel previous points to last node
     last->next = N;                 //put next last node point to be insert new node
@@ -38,6 +28,7 @@ void insert(List* L, Node* N){
     N->next = L->sentinel; //new node point to sentinel
     
     L->sentinel->prev = N; //update sentinel
+    return;
 }
 
 Node* search(List* L, int k){ //key is the value we look for
@@ -54,7 +45,7 @@ Node* search(List* L, int k){ //key is the value we look for
 }
 
 void deleteNode(List* L, Node* N){
-    if(N==NULL || N == L->sentinel) return; 
+    if(N==NULL || N == L->sentinel){ return;} 
 
     N->prev->next = N->next;
     N->next->prev = N->prev;
@@ -65,7 +56,7 @@ void deleteNode(List* L, Node* N){
 Node* max(List* L){
     Node* current = L->sentinel->next; //first node
 
-    if(current == L->sentinel) return NULL; //list empty
+    if(current == L->sentinel){ return NULL;} //list empty
 
     Node* maxNode = current;
     while(current != L->sentinel){
@@ -80,7 +71,7 @@ Node* max(List* L){
 
 Node* min(List* L){
     Node* current = L->sentinel->next; //startnode
-    if(current != L->sentinel) return; //if point at self -> empty list
+    if(current == L->sentinel){ return NULL;} //if point at self -> empty list
 
     Node* minNode = current;
     while(current != L->sentinel){
@@ -109,19 +100,19 @@ Node* successor(List* L, Node* N){ //find node that is exactly the node larger t
     return successor;
 }
 
-Node* predeccessor(List* L, Node* N){
+Node* predecessor(List* L, Node* N){
     Node* current = L->sentinel->next;
-    Node* predeccessor = NULL;
+    Node* predecessor = NULL;
 
     while(current != L->sentinel){
         if(current->key < N->key){
-            if(predeccessor == NULL || current->key > predeccessor){ //predecessor mindre än N->key och större än alla curr->key
-                predeccessor = current;
+            if(predecessor == NULL || current->key > predecessor->key){ //predecessor mindre än N->key och större än alla curr->key
+                predecessor = current;
             }
         }
         current = current->next;
     }
-    return predeccessor;
+    return predecessor;
 }
 
 
