@@ -42,15 +42,18 @@ void stress_test(void) {
         numbers[i] = i - NR_NUMBERS_TO_TEST / 2;
     }
     shuffle_array(numbers, NR_NUMBERS_TO_TEST);
-    for (int testnumber = 0; testnumber < NR_STRESS_TESTS_TO_RUN; ++testnumber) {
+    for (int testnumber = 0; testnumber < NR_STRESS_TESTS_TO_RUN; ++testnumber) {//10 ggr skapar listor
         List *list = create_list();
-        int nr_numbers_this_time = rand() % NR_NUMBERS_TO_TEST;
+        int nr_numbers_this_time = rand() % NR_NUMBERS_TO_TEST; //random number amount of elements to test
+
         for (int i = 0; i < nr_numbers_this_time; ++i) {
-            if (rand() % 2 == 0)
-                prepend_to_list(list, numbers[i]);
+            if (rand() % 2 == 0)                        //random med jämn/ojämn rest
+                prepend_to_list(list, numbers[i]);      //lägg till i början
             else
-                append_to_list(list, numbers[i]);
-            assert(list_length(list) == i + 1);
+                append_to_list(list, numbers[i]);       //lägg till i slutet
+
+            assert(list_length(list) == i + 1);         //kollar list storlek
+
             for (int j = 0; j < NR_NUMBERS_TO_TEST; ++j) {
                 if (j <= i)
                     assert(find_position_in_list(list, numbers[j]) != -1);
