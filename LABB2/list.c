@@ -44,13 +44,15 @@ Node* search(List* L, int k){ //key is the value we look for
     return NULL; //not found
 }
 
-void deleteNode(List* L, Node* N){
-    if(N==NULL || N == L->sentinel){ return;} 
+Node* deleteNode(List* L, Node* N){
+    if(N==NULL || N == L->sentinel){ return NULL;} 
+    Node* tmp = N;
 
     N->prev->next = N->next;
     N->next->prev = N->prev;
-    free(N);
-    return;
+
+    if((tmp->next != N->prev) && (tmp->prev != N->prev)){return N;} //return pointer to deleted node from list
+    else{ return NULL;}
 }
 
 Node* max(List* L){

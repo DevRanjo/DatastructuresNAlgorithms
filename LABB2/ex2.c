@@ -54,6 +54,9 @@ int main(){
     assert(successorL2 == NULL);            //there is no larger value than 9 in list
     assert(predecessorL2->key == 6);
 
+    deleteNode(&L2, search(&L2, 9));
+    assert(search(&L2, 9)==NULL);
+    
     printf("finished\n");
     return 1;
 }
