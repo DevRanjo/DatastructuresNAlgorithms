@@ -38,6 +38,6 @@ bool dequeue(Queue* q){
     }
     int data = q->queue[q->head]; //save the value of the first element in queue
     q->head = (q->head+1) % SIZE; //move head pointer to next index (next element in queue)
-    //if overflow->wrap arount 
+    //if overflow->wrap arount in a circular manner
     return data;
 }
