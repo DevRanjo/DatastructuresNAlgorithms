@@ -36,3 +36,20 @@ void freeStack(Stack* stack){
     }
     free(stack);
 }
+
+void freeStack(Stack* stack) {
+    if (stack == NULL) return;
+
+    Node* current = stack->top;
+
+    // Free all nodes
+    while (current != NULL) {
+        Node* temp = current;
+        current = current->next;
+        free(temp);
+    }
+
+    // Free the stack struct itself
+    free(stack);
+}
+

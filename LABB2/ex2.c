@@ -57,6 +57,8 @@ int main(){
     deleteNode(&L2, search(&L2, 9));
     assert(search(&L2, 9)==NULL);
     
+    freeList(&L1);
+    freeList(&L2);
     printf("finished\n");
     return 1;
 }

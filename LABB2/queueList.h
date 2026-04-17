@@ -15,6 +15,7 @@ Queue* createQueue();
 bool isEmpty(Queue* q);
 void enqueue(Queue* q, int value);
 int dequeue(Queue* q);
-void printQueue(Queue *q);
+void printQueue(Queue* q);
+void freeQueue(Queue* q);
 
 #endif

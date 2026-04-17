@@ -21,5 +21,6 @@ Node* max(List* L);
 Node* min(List* L);
 Node* successor(List* L, Node* N);
 Node* predecessor(List* L, Node* N);
+void freeList(List* L);
 
 #endif

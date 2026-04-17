@@ -56,3 +56,20 @@ void printQueue(Queue *q) {
     printf("\n");
 }
 
+void freeQueue(Queue* q) {
+    if (q == NULL) return;
+
+    Node* current = q->front;
+
+    // Traverse and free all nodes
+    while (current != NULL) {
+        Node* temp = current;
+        current = current->next;
+        free(temp);
+    }
+
+    // Free the queue struct itself
+    free(q);
+}
+
+

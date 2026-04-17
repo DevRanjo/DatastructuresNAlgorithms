@@ -117,6 +117,22 @@ Node* predecessor(List* L, Node* N){
     return predecessor;
 }
 
+void freeList(List* L){
+    if (L == NULL || L->sentinel == NULL) return;
+
+    Node* current = L->sentinel->next;
+
+    // Traverse and free all nodes except sentinel
+    while (current != L->sentinel) {
+        Node* temp = current;
+        current = current->next;
+        free(temp);
+    }
+
+    // Free the sentinel node
+    free(L->sentinel);
+    L->sentinel = NULL;
+}
 
 
 
