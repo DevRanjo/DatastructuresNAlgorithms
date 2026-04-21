@@ -2,6 +2,7 @@
 //Best case 
 #include <stdio.h>
 #include <stdlib.h>
+#include "../sorting_algorithms.h"
 
 void swap(int* a, int*b){
     int temp = *a;
@@ -40,13 +41,13 @@ void quicksort(int arr[], int low, int high){
 
         //recursion calls for smaller elements and 
         //greater or equals elements
-        quickSort(arr, low, pi - 1);
-        quickSort(arr, pi + 1, high);
+        quicksort(arr, low, pi - 1);
+        quicksort(arr, pi + 1, high);
 
     }
 }
 
-int main(){
+/*int main(){
     int arr[] = {3, 8, 5, 6};
     int n = sizeof(arr) / sizeof(arr[0]);
 
@@ -56,4 +57,4 @@ int main(){
     }
     
     return 0;
-}
+}*/

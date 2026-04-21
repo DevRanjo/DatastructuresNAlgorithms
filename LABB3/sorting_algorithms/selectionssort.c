@@ -1,5 +1,6 @@
 //Selection sort time complexity (On^2)
 #include <stdio.h>
+#include "../sorting_algorithms.h"
 
 void SelectionSort(int arr[], int size){
     for(int i=0; i<size; i++){
