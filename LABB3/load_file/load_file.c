@@ -11,7 +11,7 @@
 // array[0] will contain the number "n" of elements in the array.
 // The physical length of the array is therefore n+1.
 
-int *load_file(const char *file_name)
+int* load_file(const char* file_name)
 {
     int *data = malloc(sizeof(int)); // For the length in data[0]
     int num_elements = 0;
