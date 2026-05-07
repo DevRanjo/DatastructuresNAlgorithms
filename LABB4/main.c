@@ -16,7 +16,7 @@ int main(){
     min(tree);
     max(tree);
 
-    /*successor(tree, 8);
+    successor(tree, 8);
     successor(tree, 5);
     successor(tree, 12);
 

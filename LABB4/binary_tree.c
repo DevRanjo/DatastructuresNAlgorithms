@@ -6,11 +6,16 @@
 
 Node* create_node(int key){
     Node* newnode = malloc(sizeof(Node));
+    if(newnode == NULL){
+        printf("Memory allocation failed\n");
+        return NULL;    
+    }
     newnode->key = key;
     newnode->right = NULL; 
     newnode->left = NULL; 
     return newnode; 
 }
+
 // Here we insert a key value. If tree reaches the end or is empty it creates a new node, if key is smaller than its root it goes right and if its bigger it gos left.
 Node* insert(Node* root, int key){
     if(root == NULL){
@@ -19,7 +24,7 @@ Node* insert(Node* root, int key){
     if(key < root->key ){
         root->left = insert(root->left, key);
     }
-    else{
+    else if(key > root->key){
         root->right = insert(root->right, key);
     }
     return root;
@@ -40,6 +45,8 @@ Node* search(Node* root, int key){
 
 //smallest value at the leftmost bottom node
 Node* min(Node* root){
+    if(root==NULL){ return NULL; }
+
     while(root->left != NULL){
         root = root->left;
     }
@@ -48,6 +55,8 @@ Node* min(Node* root){
 
 //highest value at the furthest node to the bottom right
 Node* max(Node* root){
+    if(root==NULL){ return NULL; }
+
     while(root->right != NULL){
         root = root->right; 
     }
@@ -64,61 +73,93 @@ void inorder_tree_walk(Node* root){
     return;
 }
 
-/*Node* successor(Node* root, int key) {
-    Node* current = root;
-    Node* succ = NULL;
-
-    // First, find the node with the given key
-    while (current != NULL) {
-        if (key < current->key) {
-            succ = current;    // potential successor
-            current = current->left;
-        } else if (key > current->key) {
-            current = current->right;
-        } else {
-            // Found the node
-            if (current->right != NULL) {
-                return treeMinimum(current->right);
-            }
-            break;
-        }
-    }
-
-    return succ;  // may be NULL if no successor exists
-}
-
-// Utility: create a new node
-Node* newNode(int key) {
-    Node* node = (Node*)malloc(sizeof(Node));
-    node->key = key;
-    node->left = node->right = NULL;
-    return node;*/
-
+//(1) goes to key node -> goes to the right child -> find min in subtree which is the closest to key but just a little more
 Node* successor(Node* root, int key){
     Node* current = root; 
     Node* successor = NULL; 
 
     //first find node with given key
     while(current!=NULL){
+
         if(key < current->key){
             successor = current;        // potential successor
             current = current->left; 
         }
+
         else if(key > current->key){
             current = current->right;
         }
-        else{
+        
+        else{   //reaches the right key node
             if(current->right != NULL){
-                return min(current->right);
+                return min(current->right); 
             }
             break;
         }
     }
+    return successor; 
 }
 
+//goes to key node -> look at min at right subtree otherwise return 
+Node* predecessor(Node* root, int key) {
+    Node* current = root;
+    Node* predecessor = NULL;
+
+    // find node with the given key
+    while(current != NULL) {
+        if(key > current->key) {
+            predecessor = current;     // potential predecessor
+            current = current->right;
+        }
+        else if(key < current->key) {
+            current = current->left;
+        }
+        else {  // key found
+            if(current->left != NULL) {
+                return max(current->left);  // max in left subtree
+            }
+            break;
+        }
+    }
+
+    return predecessor;  // return ancestor predecessor if no left child
+}
+
+//go until reached end of node
 Node* delete_node(Node* root, int key){
+    if(root == NULL){ return NULL;}
 
+    if(key < root->key){
+        root->left = delete_node(root->left, key);
+    } 
+    else if(key > root->key){
+        root->right = delete_node(root->right, key);
+    } 
+    else {// Node found!
+
+        // if only has right child
+        if(root->left == NULL){
+            Node* temp = root->right; //saves node value from right below (slightly bigger)
+            free(root);              //delete node 
+            return temp; //returning tmp to link with parent node of deleted node ex 8->5->7 d(7) 8->7
+
+        } 
+        //if only has left child
+        else if(root->right == NULL){
+            Node* temp = root->left;
+            free(root);
+            return temp;
+        } 
+        else {
+            // Node with two children
+            Node* temp = min(root->right); //finding closest value on right which is min of subtree
+            root->key = temp->key;         //copy value up
+            root->right = delete_node(root->right, temp->key); //delete duplicate
+        }
+    }
+    return root;
 }
+
 
 void print_space(int level_of_space){
     for(int i=0; i<level_of_space; i++){
@@ -345,8 +386,8 @@ void Test_minimum(){
     assert(test_root->right->left==NULL);
     assert(test_root->left->right==NULL);
 
-    //should print out minimum is 4
-    assert(min(test_root)->key==4);
+    //minimum should be 4
+    assert(min(test_root)->key==5);
 
     //FREE NODES
     free(test_root->right);
@@ -379,8 +420,8 @@ void Test_maximum(){
     assert(test_root->right->key == 17);
     assert(test_root->left->right==NULL);
 
-    //check if maximum is 7
-    assert(max(test_root)->key==7);
+    //check if maximum is 17
+    assert(max(test_root)->key==17);
 
     //insert another bigger number
     test_root = insert(test_root, 20);

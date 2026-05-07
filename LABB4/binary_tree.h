@@ -15,6 +15,7 @@ Node* search(Node* root, int key);
 Node* delete_node(Node* root, int key);
 Node* min(Node* root);
 Node* max(Node* root);
+Node* successor(Node* root, int key);
 int tree_size(Node* root);
 int tree_depth(Node* root);
 void inorder_tree_walk(Node* root);
